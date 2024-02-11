@@ -65,9 +65,8 @@ class CategoryController extends Controller
         //validate the request
         $request->validate([
             'name' => 'required',
-            'image' => 'required|image|mimes:jpeg, png,jpg, gif, svg|max:20148',
+            'description' => 'required',
         ]);
-
 
         //update the the request
         $category = Category::find($id);
@@ -75,13 +74,12 @@ class CategoryController extends Controller
         $category->description = $request->description;
 
         //save image
-
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $image->storeAs('public/categories', $category->id . '.' . $image->getClientOriginalExtension());
             $category->image = 'storage/categories/' . $category->id . '.' . $image->getClientOriginalExtension();
-            $category->save();
         }
+        $category->save();
         return redirect()->route('categories.index')->with('success', 'Category updated successfully');
     }
 
