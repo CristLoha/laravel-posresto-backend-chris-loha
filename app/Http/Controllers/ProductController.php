@@ -103,8 +103,9 @@ class ProductController extends Controller
             $image = $request->file('image');
             $image->storeAs('public/products', $product->id . '.' . $image->getClientOriginalName());
             $product->image  = 'storage/products/' . $product->id . '.' . $image->getClientOriginalName();
-            $product->save();
+
         }
+        $product->save();
 
         return redirect()->route('products.index')->with('success', 'Product updated successfully');
     }
